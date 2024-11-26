@@ -19,7 +19,7 @@ These instructions will get you a copy of the project up and running on your loc
 - Postman
 
 ### Installation
-Run the ddl and dml query below on your database and use json data on documentation section for functionality checking.
+Adjust accordingly with your environtment variables using .env. Run the ddl and dml query below on your database and use json data on documentation section for functionality checking.
 #
 #### DDL query:
 ```sh
