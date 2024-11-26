@@ -4,7 +4,7 @@
 
 - [About](#about)
 - [Getting Started](#getting-started)
-- [Documentation](#documentation
+- [Documentation](#documentation)
 
 ## About 
 
