@@ -15,8 +15,8 @@ type AuthController struct {
 	rg          *gin.RouterGroup
 }
 
-func NewAuthController(authUsecase usecase.AuthUsecase, rg *gin.RouterGroup) AuthController {
-	return AuthController{authUsecase: authUsecase, rg: rg}
+func NewAuthController(authUsecase usecase.AuthUsecase, rg *gin.RouterGroup) *AuthController {
+	return &AuthController{authUsecase: authUsecase, rg: rg}
 }
 
 func (a *AuthController) Login(ctx *gin.Context) {

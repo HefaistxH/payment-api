@@ -33,6 +33,7 @@ func (a *authUsecase) Login(payload dto.AuthRequestDto) (dto.AuthResponseDto, er
 	if err != nil {
 		return dto.AuthResponseDto{}, err
 	}
+	logrus.Infof("User found: %v", user)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if err != nil {
 		return dto.AuthResponseDto{}, fmt.Errorf("invalid credentials")
@@ -85,8 +86,7 @@ func (a *authUsecase) RefreshToken(refreshToken string) (dto.AuthResponseDto, er
 func (a *authUsecase) Logout(token string) error {
 	err := a.jwtService.InvalidateToken(token)
 	if err != nil {
-		fmt.Errorf("Failed to invalidate token: %v", err)
-		return err
+		return fmt.Errorf("Failed to invalidate token: %v", err)
 	}
 	return nil
 }

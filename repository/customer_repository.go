@@ -14,7 +14,7 @@ type CustomerRepository interface {
 	CheckCustomerByEmail(email string) (bool, error)
 	CheckCustomerBalance(userId string) (float64, error)
 	CheckMerchantBalance(userId string) (float64, error)
-	Payment(payment dto.Payment) (dto.Payment, error)
+	Payment(payment dto.Payment, custBalance, merchBalance float64) (dto.Payment, error)
 }
 
 type customerRepository struct {
@@ -69,21 +69,21 @@ func (r *customerRepository) CheckMerchantBalance(userId string) (float64, error
 // 	return nil
 // }
 
-func (r *customerRepository) Payment(payment dto.Payment) (dto.Payment, error) {
+func (r *customerRepository) Payment(payment dto.Payment, custBalance, merchBalance float64) (dto.Payment, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		logrus.Errorf("Error starting transaction: %v", err)
 		return dto.Payment{}, err
 	}
 
-	_, err = tx.Exec(config.UpdateCustomerBalanceQuery, payment.Amount, payment.CustomerId)
+	_, err = tx.Exec(config.UpdateCustomerBalanceQuery, custBalance, payment.CustomerId)
 	if err != nil {
 		logrus.Errorf("Error updating customer balance: %v", err)
 		tx.Rollback()
 		return dto.Payment{}, err
 	}
 
-	_, err = tx.Exec(config.UpdateMerchantBalanceQuery, payment.Amount, payment.MerchantId)
+	_, err = tx.Exec(config.UpdateMerchantBalanceQuery, merchBalance, payment.MerchantId)
 	if err != nil {
 		logrus.Errorf("Error updating merchant balance: %v", err)
 		tx.Rollback()

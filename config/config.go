@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	// "github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -26,7 +26,7 @@ type ApiConfig struct {
 type JwtConfig struct {
 	IssuerName           string
 	JwtSignatureKey      string
-	JwtSigningMethod     string
+	JwtSigningMethod     *jwt.SigningMethodHMAC
 	JwtExpireTime        time.Duration
 	JwtRefreshExpireTime time.Duration
 }
@@ -52,24 +52,24 @@ func (c *Config) readConfig() error {
 	}
 	c.ApiConfig = ApiConfig{ApiPort: os.Getenv("API_PORT")}
 
-	tokenExpire, err := strconv.Atoi(os.Getenv("JWT_EXPIRE_TIME"))
+	tokenExpire, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRE"))
 	if err != nil {
 		return fmt.Errorf("Error parsing JWT_EXPIRE_TIME: %v", err)
 	}
-	refreshExpiredToken, err := strconv.Atoi(os.Getenv("JWT_REFRESH_EXPIRE_TIME"))
+	refreshExpiredToken, err := strconv.Atoi(os.Getenv("TOKEN_REFRESH_EXPIRE"))
 	if err != nil {
 		return fmt.Errorf("Error parsing JWT_REFRESH_EXPIRE_TIME: %v", err)
 	}
 
 	c.JwtConfig = JwtConfig{
-		IssuerName:           os.Getenv("JWT_ISSUER_NAME"),
-		JwtSignatureKey:      os.Getenv("JWT_SIGNATURE_KEY"),
-		JwtSigningMethod:     os.Getenv("JWT_SIGNING_METHOD"),
+		IssuerName:           os.Getenv("TOKEN_ISSUE"),
+		JwtSignatureKey:      os.Getenv("TOKEN_SECRET"),
+		JwtSigningMethod:     jwt.SigningMethodHS256,
 		JwtExpireTime:        time.Duration(tokenExpire) * time.Minute,
 		JwtRefreshExpireTime: time.Duration(refreshExpiredToken) * time.Hour,
 	}
 
-	if c.Host == "" || c.Port == "" || c.User == "" || c.Password == "" || c.Name == "" || c.Driver == "" || c.ApiPort == "" || c.IssuerName == "" || c.JwtSignatureKey == "" || c.JwtSigningMethod == "" {
+	if c.Host == "" || c.Port == "" || c.User == "" || c.Password == "" || c.Name == "" || c.Driver == "" || c.ApiPort == "" || c.IssuerName == "" || c.JwtSignatureKey == "" {
 		return fmt.Errorf("Missing required environment variables for configuration")
 	}
 
