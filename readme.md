@@ -8,7 +8,7 @@
 
 ## About 
 
-> I'm focusing on listed required features which are login, payment, and logout in this project. The table for customer and merchant is separated for effectiveness on data management as the users base will likely keep growing. JWT is being used for authentication purpose, although it's only a simple implementation, it still works in this type of scenario. As for now, payment is the only activity that can be logged into history table and i'm not yet to make an endpoint for it. I do log errors from server-side/repository too using logrus, you can check the logrus.log on root branch for error checking. I hope this meets the required criteria, even if it's not i do really hope to get some feedback for me to reflect and learn from my own mistakes. It is recomended to open this .md file using relevant text editor (you can copy this file to readme.so for more convenience).
+> I'm focusing on listed required features which are login, payment, and logout in this project. The table for customer and merchant is separated for effectiveness on data management as the users base will likely keep growing. JWT is being used for authentication purpose, although it's only a simple implementation, it still works in this type of scenario. As for now, payment is the only activity that can be logged into history table and i'm yet to make an endpoint for it. I do log errors from server-side/repository too using logrus, you can check the logrus.log on root branch for error checking.
 
 ## Getting Started 
 
